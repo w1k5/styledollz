@@ -1,0 +1,26 @@
+@font-face {
+  font-family: Retro_Gaming;
+  src: url("assets/retro.ttf");
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  margin: auto;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30em;
+  font-family: Retro_Gaming;
+  background-color: #FDB2EB;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.titleScreen {
+  color: white;
+  text-align: center;
+}
