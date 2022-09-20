@@ -1,96 +1,137 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  var gameData = initScenes();
-  gameData.currentScene = "menu";
-  return update(gameData);
-}
+  const [current, setScene] = useState("menu");
+  
+  const allNames = new Set(["menu", "catalog", "editor", "finale"]);
+  var gameData = [];
+  allNames.forEach(element => {
+    gameData.push(<Scene type={element} currentScene={current} setScene={setScene} key={element} />);
+  });
 
-function update(gameData) {
   return(
     <div className="App">
-      {drawScene(gameData)}
+      {gameData.filter(scene => scene.props.type === scene.props.currentScene)}
     </div>
   );
 }
 
-/**
- * Draw the following appropriate scene
- */
-function drawScene(gameData) {
-  console.log(gameData.currentScene);
-  switch(gameData.currentScene) {
-    case "menu":
-      return generateMenu(gameData);
-    case "catalog":
-      return generateCatalog(gameData);
-    case "editor":
-      return generateEditor(gameData);
-    case "finale":
-      return generateFinale(gameData);
-    default:
-      return;
+class Scene extends React.Component {
+  render() {
+    switch(this.props.type) {
+      case "menu":
+        return this.generateMenu();
+      case "catalog":
+        return this.generateCatalog();
+      case "editor":
+        return this.generateEditor();
+      case "finale":
+        return this.generateFinale();
+      default:
+        return;
+    }
+  }
+
+  generateMenu() {
+    return(
+    <div className="titleScreen">
+      <h1>Styledollz 2.0</h1>
+      <button type="button" onClick={() => this.props.setScene("catalog")}>Start!</button>
+    </div>
+    );
+  }
+
+  generateCatalog() {
+  return(
+    <div className="catalogScreen">
+      <Catalog />
+    </div>
+  );
+  }
+ 
+  generateEditor() {
+    return;
+  }
+
+  generateFinale() {
+    return;
   }
 }
 
-/**
- * Reassign the currentScene of the game data and draw the new scene
- */
-function changeScene(gameData, newScene) {
-  gameData.currentScene = newScene;
-  return update(gameData);
+class Catalog extends React.Component {
+
+  importAll(r) {
+    let images = {};
+    r.keys().map((item, index) => ( images[item.replace('./', '')] = r(item)));
+    console.log(images);
+    return images;
+  }
+
+  generateTopInfo() {
+     const images = this.importAll(require.context('./assets/blonde_heads', false, /\.(gif)$/));
+     return images;
+  }
+
+  render() {
+    this.generateTopInfo('./assets/blonde_heads', 'gif');
+    return (
+      <>
+      {this.tabs(this.majorTabs)}
+      <div className="catalogBody">
+          <Canvas />
+          <div className="catalog">
+            {this.tabs(this.minorTabs)}
+            {this.displayItems()}
+          </div>
+        </div></>
+    );
+  }
+
+  tabs(listOfTabs) {
+    return (
+      <ul className="catalogTabs">
+        <li className="catalogTabs-item">item1</li>
+        <li className="catalogTabs-item">item2</li>
+        <li className="catalogTabs-item">item3</li>
+        <li className="catalogTabs-item">item1</li>
+        <li className="catalogTabs-item">item2</li>
+        <li className="catalogTabs-item">item3</li>
+      </ul>
+    );
+  }
+
+  displayItems(items) {
+    return (
+      <div className="catalogDisplay">
+        <div className="catalogItem">ITEM</div>
+        <div className="catalogItem">ITEM</div>
+        <div className="catalogItem">ITEM</div>
+      </div>
+    );
+  }
 }
 
-/**
- * Present the main menu
- */
-function generateMenu(gameData) {
-  return(
-    <div className="titleScreen">
-      <h1>Styledollz 2.0</h1>
-      <button onClick={() => changeScene(gameData, "catalog")}>Start!</button>
-    </div>
-  );
+class Canvas extends React.Component {
+  render() {
+    return (
+      <div className="canvas">
+        <center>Styledollz 2.0 Canvas</center>
+      </div>
+    );
+  }
 }
 
-/**
- * Present the catalog and canvas
- */
-function generateCatalog(gameData) {
-  return(
-    <div className="titleScreen">
-      <h1>BIRTCHES</h1>
-      <button onClick={() => changeScene(gameData, "editor")}>Start!</button>
-    </div>
-  );
+class CatalogItem extends React.Component {
+  render() {
+    return;
+  }
 }
 
-/**
- * Present canvasItem editor
- */
-function generateEditor() {}
-
-/**
- * Present editable final stage
- */
-function generateFinale() {}
-
-/**
- * Initialize all of the scenes
- */
-function initScenes() {
-  var gameObj = {
-    currentScene: "menu"
-  };
-
-  const allScenes = new Set(["menu", "catalog", "editor", "finale"]);
-  allScenes.forEach(element => {
-    gameObj[element] = {name: element};
-  });
-
-  return gameObj;
+class CanvasItem extends React.Component {
+  reader() {
+    return;
+  }
 }
 
 export default App;
