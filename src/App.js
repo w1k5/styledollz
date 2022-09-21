@@ -60,27 +60,20 @@ class Scene extends React.Component {
 }
 
 class Catalog extends React.Component {
-
   importAll(r) {
-    let images = {};
-    r.keys().map((item, index) => ( images[item.replace('./', '')] = r(item)));
-    console.log(images);
-    return images;
+    return r.keys().map(r);
   }
-
   generateTopInfo() {
-     const images = this.importAll(require.context('./assets/blonde_heads', false, /\.(gif)$/));
-     return images;
+    return this.importAll(require.context('./assets/blonde_heads', false, /\.(gif)$/));
   }
 
   render() {
-    this.generateTopInfo('./assets/blonde_heads', 'gif');
     return (
       <>
-      {this.tabs(this.majorTabs)}
       <div className="catalogBody">
           <Canvas />
           <div className="catalog">
+            {this.tabs(this.majorTabs)}
             {this.tabs(this.minorTabs)}
             {this.displayItems()}
           </div>
@@ -101,12 +94,14 @@ class Catalog extends React.Component {
     );
   }
 
-  displayItems(items) {
+  displayItems(things) {
+    var listOfImages = this.generateTopInfo();
     return (
       <div className="catalogDisplay">
-        <div className="catalogItem">ITEM</div>
-        <div className="catalogItem">ITEM</div>
-        <div className="catalogItem">ITEM</div>
+        {listOfImages.map(
+          (image, index) => 
+            <img className="catalogItem" key={index} src={image} alt="info" ></img>
+        )}
       </div>
     );
   }

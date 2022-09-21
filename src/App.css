@@ -35,13 +35,21 @@ body {
 	background-color: var(--color1);	
 }
 
+img {
+  image-rendering: pixelated;
+}
+
+button {
+  font-family: Retro_Gaming;
+  color: white;
+  border: white dotted;
+  background-color: var(--color3);
+}
 
 .App {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   border: var(--color4) solid 1px;
   font-family: Retro_Gaming;
   background-color: var(--color1);
@@ -58,13 +66,6 @@ body {
   justify-content: center;
   text-align: center;
   align-items: center;
-}
-
-button {
-  font-family: Retro_Gaming;
-  color: white;
-  border: white dotted;
-  background-color: var(--color3);
 }
 
 /* CATALOG SCENE */
@@ -111,8 +112,20 @@ button {
 
 .catalogDisplay {
   padding: 1em;
+  position: fixed;
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+  max-height: -moz-available;          /* WebKit-based browsers will ignore this. */
+  max-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  max-height: fill-available;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.catalogItem {
+  padding: 0.25em;
 }
 
 /* workable canvas */
@@ -120,4 +133,17 @@ button {
   background-color: white;
   border: var(--color3) solid 1px;
   width: 35%;
+}
+
+@media (orientation: portrait) {
+  .catalogBody {
+    flex-direction: column;
+  }
+  .catalog{
+    width: 100%;
+  }
+  .canvas {
+    height: 40%;
+    width: 100%;
+  }
 }
